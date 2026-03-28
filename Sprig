@@ -1,0 +1,526 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Success Outlast Hate</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Impact:wght@400;700&family=Arial:wght@400;700&display=swap');
+    
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      font-family: 'Arial', sans-serif;
+      background: #0a0a0a;
+      color: #fff;
+      line-height: 1.6;
+    }
+    header {
+      background: linear-gradient(#000, #1a1a1a);
+      padding: 20px 5%;
+      text-align: center;
+      border-bottom: 5px solid #ff0000;
+    }
+    .logo {
+      font-family: 'Impact', sans-serif;
+      font-size: 3.5rem;
+      letter-spacing: 5px;
+      text-transform: uppercase;
+    }
+    .tagline {
+      font-size: 1.15rem;
+      margin-top: 8px;
+      color: #ddd;
+      letter-spacing: 7px;
+    }
+
+    .hero {
+      height: 65vh;
+      background: linear-gradient(rgba(0,0,0,0.75), rgba(0,0,0,0.75)), #111;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+    }
+    .hero h1 {
+      font-size: 4.8rem;
+      font-family: 'Impact', sans-serif;
+      letter-spacing: 4px;
+    }
+    .hero p {
+      font-size: 1.6rem;
+      max-width: 720px;
+      margin: 20px auto 40px;
+    }
+    .cta-btn {
+      background: #ff0000;
+      color: #fff;
+      padding: 16px 45px;
+      font-size: 1.25rem;
+      border: none;
+      cursor: pointer;
+      text-transform: uppercase;
+      letter-spacing: 3px;
+    }
+    .cta-btn:hover { background: #cc0000; transform: scale(1.08); }
+
+    section { padding: 90px 5%; }
+    h2 {
+      text-align: center;
+      font-size: 3rem;
+      margin-bottom: 70px;
+      font-family: 'Impact', sans-serif;
+      letter-spacing: 4px;
+    }
+
+    .products {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
+      gap: 45px;
+      max-width: 1250px;
+      margin: 0 auto;
+    }
+    .product-card {
+      background: #111;
+      border: 1px solid #333;
+      overflow: hidden;
+      transition: all 0.4s;
+    }
+    .product-card:hover {
+      transform: translateY(-15px);
+      border-color: #ff0000;
+    }
+    .product-card img {
+      width: 100%;
+      height: 440px;
+      object-fit: contain;
+      background: #fff;
+      padding: 25px;
+      transition: opacity 0.3s;
+    }
+    .product-info {
+      padding: 25px;
+      text-align: center;
+    }
+    .product-info h3 {
+      font-size: 1.75rem;
+      margin-bottom: 12px;
+    }
+    .price {
+      font-size: 2rem;
+      color: #ff0000;
+      font-weight: bold;
+      margin: 15px 0;
+    }
+
+    .size-selector {
+      margin: 15px 0;
+    }
+    .size-selector label {
+      display: inline-block;
+      margin: 0 6px 10px 0;
+      padding: 8px 14px;
+      border: 2px solid #444;
+      cursor: pointer;
+      transition: all 0.3s;
+    }
+    .size-selector input[type="radio"] {
+      display: none;
+    }
+    .size-selector input[type="radio"]:checked + label {
+      border-color: #ff0000;
+      background: #220000;
+      color: #ff0000;
+    }
+
+    .color-selector {
+      margin: 15px 0 10px;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      justify-content: center;
+    }
+    .color-option {
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      cursor: pointer;
+      border: 3px solid #333;
+      transition: all 0.3s;
+    }
+    .color-option.selected {
+      border-color: #ff0000;
+      transform: scale(1.2);
+      box-shadow: 0 0 0 3px #fff;
+    }
+
+    .add-to-cart {
+      background: transparent;
+      color: #fff;
+      border: 2px solid #ff0000;
+      padding: 13px 35px;
+      cursor: pointer;
+      font-size: 1.05rem;
+      text-transform: uppercase;
+      transition: 0.3s;
+      width: 100%;
+    }
+    .add-to-cart:hover {
+      background: #ff0000;
+      color: #fff;
+    }
+
+    .set {
+      border: 4px solid #ff0000;
+      background: #1a0000;
+    }
+
+    footer {
+      background: #000;
+      padding: 60px 5%;
+      text-align: center;
+      border-top: 5px solid #ff0000;
+    }
+
+    .cart-icon {
+      position: fixed;
+      bottom: 30px;
+      right: 30px;
+      background: #ff0000;
+      color: #fff;
+      padding: 18px 32px;
+      border-radius: 50px;
+      font-weight: bold;
+      box-shadow: 0 6px 25px rgba(255,0,0,0.5);
+      cursor: pointer;
+      z-index: 100;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .cart-sidebar {
+      position: fixed;
+      top: 0;
+      right: -400px;
+      width: 380px;
+      height: 100%;
+      background: #111;
+      box-shadow: -5px 0 20px rgba(0,0,0,0.8);
+      transition: right 0.4s ease;
+      z-index: 1000;
+      overflow-y: auto;
+      padding: 30px;
+      color: #fff;
+    }
+    .cart-sidebar.open { right: 0; }
+    .cart-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 30px;
+      border-bottom: 2px solid #ff0000;
+      padding-bottom: 15px;
+    }
+    .cart-item {
+      display: flex;
+      margin-bottom: 25px;
+      border-bottom: 1px solid #333;
+      padding-bottom: 20px;
+    }
+    .cart-item img {
+      width: 80px;
+      height: 80px;
+      object-fit: contain;
+      background: #fff;
+      margin-right: 15px;
+    }
+    .cart-total {
+      font-size: 1.5rem;
+      text-align: right;
+      margin: 30px 0;
+      color: #ff0000;
+    }
+    .close-cart {
+      background: none;
+      border: none;
+      color: #ff0000;
+      font-size: 1.8rem;
+      cursor: pointer;
+    }
+    .checkout-btn {
+      width: 100%;
+      background: #ff0000;
+      color: #fff;
+      padding: 16px;
+      font-size: 1.2rem;
+      border: none;
+      cursor: pointer;
+      text-transform: uppercase;
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <div class="logo">SUCCESS OUTLAST HATE</div>
+    <div class="tagline">OUTLAST THE HUNGER • HATE THE LIMITS</div>
+  </header>
+
+  <div class="hero">
+    <div>
+      <h1>OUTLAST EVERYTHING</h1>
+      <p>Premium streetwear for those who succeed through grit and refuse to break.</p>
+      <button class="cta-btn" onclick="document.getElementById('shop').scrollIntoView({behavior:'smooth'})">Shop the Drop</button>
+    </div>
+  </div>
+
+  <section id="shop">
+    <h2>Signature Collection</h2>
+    <div class="products">
+
+      <!-- Hoodie -->
+      <div class="product-card">
+        <img id="hoodie-img" src="hoodie-black.jpeg" alt="Signature Zip Hoodie">
+        <div class="product-info">
+          <h3>Signature Zip Hoodie</h3>
+          <div class="price">$45</div>
+          
+          <div class="color-selector" id="hoodie-colors">
+            <div class="color-option selected" style="background:#ff0000;" data-color="Red" data-img="https://picsum.photos/id/1015/600/700" onclick="changeColor('hoodie', this)"></div>
+            <div class="color-option" style="background:#89CFF0;" data-color="Powder Blue" data-img="https://picsum.photos/id/102/600/700" onclick="changeColor('hoodie', this)"></div>
+            <div class="color-option" style="background:#FF69B4;" data-color="Pink" data-img="https://picsum.photos/id/103/600/700" onclick="changeColor('hoodie', this)"></div>
+            <div class="color-option" style="background:#808080;" data-color="Grey" data-img="https://picsum.photos/id/104/600/700" onclick="changeColor('hoodie', this)"></div>
+            <div class="color-option" style="background:#228B22;" data-color="Green" data-img="https://picsum.photos/id/105/600/700" onclick="changeColor('hoodie', this)"></div>
+            <div class="color-option" style="background:#8B4513;" data-color="Brown" data-img="https://picsum.photos/id/106/600/700" onclick="changeColor('hoodie', this)"></div>
+            <div class="color-option" style="background:#ffffff;border:3px solid #555;" data-color="White" data-img="https://picsum.photos/id/107/600/700" onclick="changeColor('hoodie', this)"></div>
+          </div>
+
+          <div class="size-selector">
+            <label><input type="radio" name="size-hoodie" value="S" checked> S</label>
+            <label><input type="radio" name="size-hoodie" value="M"> M</label>
+            <label><input type="radio" name="size-hoodie" value="L"> L</label>
+            <label><input type="radio" name="size-hoodie" value="XL"> XL</label>
+          </div>
+          <button class="add-to-cart" onclick="addToCart(this, 'Signature Zip Hoodie')">Add to Cart</button>
+        </div>
+      </div>
+
+      <!-- Jogging Pants -->
+      <div class="product-card">
+        <img id="pants-img" src="pants-black.jpeg" alt="Signature Jogging Pants">
+        <div class="product-info">
+          <h3>Signature Jogging Pants</h3>
+          <div class="price">$45</div>
+          
+          <div class="color-selector" id="pants-colors">
+            <div class="color-option selected" style="background:#ff0000;" data-color="Red" data-img="https://picsum.photos/id/201/600/700" onclick="changeColor('pants', this)"></div>
+            <div class="color-option" style="background:#89CFF0;" data-color="Powder Blue" data-img="https://picsum.photos/id/202/600/700" onclick="changeColor('pants', this)"></div>
+            <div class="color-option" style="background:#FF69B4;" data-color="Pink" data-img="https://picsum.photos/id/203/600/700" onclick="changeColor('pants', this)"></div>
+            <div class="color-option" style="background:#808080;" data-color="Grey" data-img="https://picsum.photos/id/204/600/700" onclick="changeColor('pants', this)"></div>
+            <div class="color-option" style="background:#228B22;" data-color="Green" data-img="https://picsum.photos/id/205/600/700" onclick="changeColor('pants', this)"></div>
+            <div class="color-option" style="background:#8B4513;" data-color="Brown" data-img="https://picsum.photos/id/206/600/700" onclick="changeColor('pants', this)"></div>
+            <div class="color-option" style="background:#ffffff;border:3px solid #555;" data-color="White" data-img="https://picsum.photos/id/207/600/700" onclick="changeColor('pants', this)"></div>
+          </div>
+
+          <div class="size-selector">
+            <label><input type="radio" name="size-pants" value="S" checked> S</label>
+            <label><input type="radio" name="size-pants" value="M"> M</label>
+            <label><input type="radio" name="size-pants" value="L"> L</label>
+            <label><input type="radio" name="size-pants" value="XL"> XL</label>
+          </div>
+          <button class="add-to-cart" onclick="addToCart(this, 'Signature Jogging Pants')">Add to Cart</button>
+        </div>
+      </div>
+
+      <!-- Full Set -->
+      <div class="product-card set">
+        <img id="set-img" src="https://picsum.photos/id/301/800/900" alt="Full Set">
+        <div class="product-info">
+          <h3>Full Set (Hoodie + Pants)</h3>
+          <div class="price">$90</div>
+          <div style="margin:15px 0;font-size:0.95rem;color:#aaa;">Mix & Match Colors</div>
+          
+          <div class="color-selector" id="set-colors">
+            <div class="color-option selected" style="background:#ff0000;" data-color="Red" onclick="changeColor('set', this)"></div>
+            <div class="color-option" style="background:#89CFF0;" data-color="Powder Blue" onclick="changeColor('set', this)"></div>
+            <div class="color-option" style="background:#FF69B4;" data-color="Pink" onclick="changeColor('set', this)"></div>
+            <div class="color-option" style="background:#808080;" data-color="Grey" onclick="changeColor('set', this)"></div>
+            <div class="color-option" style="background:#228B22;" data-color="Green" onclick="changeColor('set', this)"></div>
+            <div class="color-option" style="background:#8B4513;" data-color="Brown" onclick="changeColor('set', this)"></div>
+            <div class="color-option" style="background:#ffffff;border:3px solid #555;" data-color="White" onclick="changeColor('set', this)"></div>
+          </div>
+
+          <div class="size-selector">
+            <label><input type="radio" name="size-set" value="S" checked> S</label>
+            <label><input type="radio" name="size-set" value="M"> M</label>
+            <label><input type="radio" name="size-set" value="L"> L</label>
+            <label><input type="radio" name="size-set" value="XL"> XL</label>
+          </div>
+          <button class="add-to-cart" onclick="addToCart(this, 'Full Set (Hoodie + Pants)')">Add Full Set</button>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <footer>
+    <p>&copy; 2026 Success Outlast Hate • Built to Outlast the Hate</p>
+  </footer>
+
+  <div class="cart-icon" onclick="toggleCart()">
+    🛒 Cart (<span id="cart-count">0</span>)
+  </div>
+
+  <div id="cart-sidebar" class="cart-sidebar">
+    <div class="cart-header">
+      <h2>Your Cart</h2>
+      <button class="close-cart" onclick="toggleCart()">✕</button>
+    </div>
+    <div id="cart-items"></div>
+    <div class="cart-total">Total: $<span id="cart-total">0</span></div>
+    <button class="checkout-btn" onclick="checkout()">Proceed to Checkout</button>
+  </div>
+
+  <script>
+    let cart = [];
+    let cartCount = 0;
+
+    const colorImages = {
+      hoodie: {
+        'Red': 'https://picsum.photos/id/1015/600/700',
+        'Powder Blue': 'https://picsum.photos/id/102/600/700',
+        'Pink': 'https://picsum.photos/id/103/600/700',
+        'Grey': 'https://picsum.photos/id/104/600/700',
+        'Green': 'https://picsum.photos/id/105/600/700',
+        'Brown': 'https://picsum.photos/id/106/600/700',
+        'White': 'https://picsum.photos/id/107/600/700'
+      },
+      pants: {
+        'Red': 'https://picsum.photos/id/201/600/700',
+        'Powder Blue': 'https://picsum.photos/id/202/600/700',
+        'Pink': 'https://picsum.photos/id/203/600/700',
+        'Grey': 'https://picsum.photos/id/204/600/700',
+        'Green': 'https://picsum.photos/id/205/600/700',
+        'Brown': 'https://picsum.photos/id/206/600/700',
+        'White': 'https://picsum.photos/id/207/600/700'
+      }
+    };
+
+    function changeColor(type, el) {
+      const parent = el.parentElement;
+      parent.querySelectorAll('.color-option').forEach(opt => opt.classList.remove('selected'));
+      el.classList.add('selected');
+
+      const color = el.dataset.color;
+      if (type === 'hoodie' && colorImages.hoodie[color]) {
+        document.getElementById('hoodie-img').src = colorImages.hoodie[color];
+      } else if (type === 'pants' && colorImages.pants[color]) {
+        document.getElementById('pants-img').src = colorImages.pants[color];
+      } else if (type === 'set') {
+        // For set, you can enhance later with a combined image
+        document.getElementById('set-img').src = `https://picsum.photos/id/301/800/900?color=${color.toLowerCase()}`;
+      }
+    }
+
+    function getSelectedSize(card) {
+      const radios = card.querySelectorAll('input[type="radio"]');
+      for (let radio of radios) {
+        if (radio.checked) return radio.value;
+      }
+      return 'M';
+    }
+
+    function getSelectedColor(card) {
+      const selected = card.querySelector('.color-option.selected');
+      return selected ? selected.dataset.color : 'Black';
+    }
+
+    function addToCart(btn, itemName) {
+      const card = btn.closest('.product-card');
+      const size = getSelectedSize(card);
+      const color = getSelectedColor(card);
+      const img = card.querySelector('img').src;
+
+      const item = {
+        name: `${itemName} (${color})`,
+        price: itemName.includes('Full Set') ? 90 : 45,
+        size: size,
+        color: color,
+        img: img
+      };
+      
+      cart.push(item);
+      cartCount++;
+      document.getElementById('cart-count').textContent = cartCount;
+      
+      alert(`${item.name} (Size ${size}) — $${item.price} added to cart!`);
+      renderCart();
+    }
+
+    function renderCart() {
+      const container = document.getElementById('cart-items');
+      container.innerHTML = '';
+      let total = 0;
+
+      cart.forEach((item, index) => {
+        total += item.price;
+        const div = document.createElement('div');
+        div.className = 'cart-item';
+        div.innerHTML = `
+          <img src="${item.img}" alt="${item.name}">
+          <div style="flex:1">
+            <strong>${item.name}</strong><br>
+            Size: ${item.size} | Color: ${item.color}<br>
+            $${item.price}
+          </div>
+          <button onclick="removeFromCart(${index})" style="background:none;border:none;color:#ff0000;cursor:pointer;font-size:1.2rem;">✕</button>
+        `;
+        container.appendChild(div);
+      });
+
+      document.getElementById('cart-total').textContent = total;
+    }
+
+    function removeFromCart(index) {
+      cart.splice(index, 1);
+      cartCount--;
+      document.getElementById('cart-count').textContent = cartCount;
+      renderCart();
+    }
+
+    function toggleCart() {
+      const sidebar = document.getElementById('cart-sidebar');
+      sidebar.classList.toggle('open');
+    }
+
+    function checkout() {
+      if (cart.length === 0) {
+        alert("Your cart is empty!");
+        return;
+      }
+      alert("Thank you for shopping with Success Outlast Hate!\n\nThis is a demo — real checkout would process payment here.");
+      cart = [];
+      cartCount = 0;
+      document.getElementById('cart-count').textContent = 0;
+      renderCart();
+      toggleCart();
+    }
+
+    document.addEventListener('click', function(e) {
+      const sidebar = document.getElementById('cart-sidebar');
+      if (!sidebar.contains(e.target) && !e.target.closest('.cart-icon')) {
+        sidebar.classList.remove('open');
+      }
+    });
+
+    // Initialize first colors
+    window.onload = function() {
+      document.querySelectorAll('.color-selector').forEach(selector => {
+        const first = selector.querySelector('.color-option');
+        if (first) first.classList.add('selected');
+      });
+    };
+  </script>
+
+</body>
+</html>
